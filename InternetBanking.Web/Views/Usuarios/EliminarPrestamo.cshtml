@@ -1,0 +1,37 @@
+﻿@model InternetBanking.Persistance.Models.dbo.PrestamosModel
+
+@{
+    ViewData["Title"] = "Eliminar Préstamo";
+}
+
+<div class="container mt-5">
+    <div class="card shadow-lg">
+        <div class="card-header bg-danger text-white">
+            <h2 class="mb-0">Eliminar Préstamo</h2>
+        </div>
+        <div class="card-body">
+            <p class="mb-4">¿Estás seguro de que deseas eliminar este préstamo?</p>
+
+            <dl class="row">
+                <dt class="col-sm-4">Número de Préstamo:</dt>
+                <dd class="col-sm-8">@Html.DisplayFor(model => model.NumeroPrestamo)</dd>
+
+                <dt class="col-sm-4">Monto:</dt>
+                <dd class="col-sm-8">@Html.DisplayFor(model => model.Monto)</dd>
+
+                <dt class="col-sm-4">Saldo de Deuda:</dt>
+                <dd class="col-sm-8">@Html.DisplayFor(model => model.SaldoDeuda)</dd>
+
+                <dt class="col-sm-4">Pagado:</dt>
+                <dd class="col-sm-8">@Html.DisplayFor(model => model.Pagado)</dd>
+            </dl>
+
+            <form asp-action="EliminarPrestamo">
+                <input type="hidden" name="PrestamoID" value="@Model.PrestamoID" />
+                <input type="hidden" name="UsuarioID" value="@Model.UsuarioID" />
+                <button type="submit" class="btn btn-danger">Eliminar Préstamo</button>
+                <a asp-action="Index" class="btn btn-secondary">Cancelar</a>
+            </form>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,77 @@
+﻿@using InternetBanking.Application.Dtos.dbo.pagos.expreso
+@model PagoExpresoDto
+
+@{
+    ViewData["Title"] = "Pago Expreso";
+}
+
+<div class="container d-flex flex-column justify-content-center align-items-center min-vh-100" style="overflow: hidden;">
+
+    <!-- Título centrado justo arriba del formulario -->
+    <h1 class="text-center text-uppercase text-primary mb-3">Pago Expreso</h1>
+
+    @if (TempData["ErrorMessage"] != null)
+    {
+        <div class="alert alert-warning alert-dismissible fade show" role="alert">
+            @TempData["ErrorMessage"]
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    }
+
+    <!-- Contenedor del formulario centrado -->
+    <div class="row w-100 justify-content-center" id="formulario">
+        <div class="col-lg-6 col-md-8 col-sm-12">
+            <form asp-action="ProcesarPagoExpreso" method="get" class="shadow-lg p-4 rounded bg-light">
+                <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+
+                <!-- Campo para seleccionar la cuenta -->
+                <div class="mb-4">
+                    <label asp-for="CuentaOrigenID" class="form-label fw-semibold text-muted">Seleccione su cuenta:</label>
+                    <select asp-for="CuentaOrigenID" asp-items="@ViewBag.Cuentas" class="form-select form-select-lg" required>
+                        <option value="" selected disabled>Seleccione una cuenta</option>
+                    </select>
+                    <span asp-validation-for="CuentaOrigenID" class="text-danger"></span>
+                </div>
+
+                <!-- Campo para ingresar la cuenta -->
+                <div class="mb-4">
+                    <label asp-for="Cuenta" class="form-label fw-semibold text-muted">Cuenta:</label>
+                    <input asp-for="Cuenta" class="form-control form-control-lg" required />
+                    <span asp-validation-for="Cuenta" class="text-danger"></span>
+                </div>
+
+                <!-- Campo para ingresar el monto -->
+                <div class="mb-4">
+                    <label asp-for="Monto" class="form-label fw-semibold text-muted">Monto:</label>
+                    <input asp-for="Monto" class="form-control form-control-lg" type="number" step="0.01" required />
+                    <span asp-validation-for="Monto" class="text-danger"></span>
+                </div>
+
+                <!-- Botón de acción centralizado -->
+                <div class="d-grid gap-2 mb-4">
+                    <button type="submit" class="btn btn-primary btn-lg">Continuar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- Estilos adicionales -->
+<style>
+    body, html {
+        background-color: #f8f9fa;
+        overflow: hidden; /* Desactiva la barra de desplazamiento */
+        height: 100vh; /* Ocupa toda la pantalla */
+    }
+
+    h1 {
+        font-family: 'Arial', sans-serif;
+    }
+
+    #formulario {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin-top: -20px; /* Ajuste de posición del formulario */
+    }
+</style>

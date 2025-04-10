@@ -1,0 +1,121 @@
+﻿@using InternetBanking.Application.Dtos.identity.account;
+@model RegisterDto;
+
+@{
+    ViewData["Title"] = "Registrarse";
+}
+
+<!-- Bloqueo de Scroll -->
+<style>
+    html, body {
+        height: 100%;
+        margin: 0;
+        overflow: hidden; /* Bloquea el scroll */
+        background-color: #f4f7fa;
+    }
+</style>
+
+<div class="container-fluid d-flex justify-content-center align-items-center min-vh-100">
+    <div class="row justify-content-center w-100">
+        <div class="col-12 col-sm-8 col-md-6 col-lg-5">
+            <div class="card shadow-lg rounded-4 border-0">
+                <div class="card-body p-5">
+                    <h5 class="text-center mb-4 text-black fw-bold" style="font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;">¡Bienvenido! Crea tu cuenta</h5>
+
+                    <form method="post" asp-controller="Account" asp-action="Register" enctype="multipart/form-data">
+                        <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+
+                        <div class="row mb-4">
+                            <div class="col-12 col-md-6">
+                                <label asp-for="Nombre" class="form-label fw-semibold text-muted">Nombre</label>
+                                <input asp-for="Nombre" class="form-control form-control-lg shadow-sm" placeholder="Ingresa el nombre" />
+                                <span asp-validation-for="Nombre" class="text-danger"></span>
+                            </div>
+                            <div class="col-12 col-md-6">
+                                <label asp-for="Apellido" class="form-label fw-semibold text-muted">Apellido</label>
+                                <input asp-for="Apellido" class="form-control form-control-lg shadow-sm" placeholder="Ingresa el apellido" />
+                                <span asp-validation-for="Apellido" class="text-danger"></span>
+                            </div>
+                        </div>
+
+                        <div class="mb-4">
+                            <label asp-for="Cedula" class="form-label fw-semibold text-muted">Cedula del usuario</label>
+                            <input asp-for="Cedula" class="form-control form-control-lg shadow-sm" placeholder="Ingrese la cedula" />
+                            <span asp-validation-for="Cedula" class="text-danger"></span>
+                        </div>
+
+                        <div class="mb-4">
+                            <label asp-for="Username" class="form-label fw-semibold text-muted">Nombre de Usuario</label>
+                            <input asp-for="Username" class="form-control form-control-lg shadow-sm" placeholder="Elige el nombre de usuario" />
+                            <span asp-validation-for="Username" class="text-danger"></span>
+                        </div>
+
+                        <div class="row mb-4">
+                            <div class="col-12 col-md-6">
+                                <label asp-for="Password" class="form-label fw-semibold text-muted">Contraseña</label>
+                                <input asp-for="Password" class="form-control form-control-lg shadow-sm" type="password" placeholder="Crea una contraseña" />
+                                <span asp-validation-for="Password" class="text-danger"></span>
+                            </div>
+                            <div class="col-12 col-md-6">
+                                <label asp-for="ConfirmPassword" class="form-label fw-semibold text-muted">Confirmar Contraseña</label>
+                                <input asp-for="ConfirmPassword" class="form-control form-control-lg shadow-sm" type="password" placeholder="Confirma tu contraseña" />
+                                <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
+                            </div>
+                        </div>
+
+                        <div class="mb-4">
+                            <label asp-for="Email" class="form-label fw-semibold text-muted">Correo Electrónico</label>
+                            <input asp-for="Email" class="form-control form-control-lg shadow-sm" placeholder="Correo electrónico" />
+                            <span asp-validation-for="Email" class="text-danger"></span>
+                        </div>
+
+                        <div class="mb-4">
+                            <label asp-for="Phone" class="form-label fw-semibold text-muted">Teléfono</label>
+                            <input asp-for="Phone" class="form-control form-control-lg shadow-sm" placeholder="Número de teléfono" />
+                            <span asp-validation-for="Phone" class="text-danger"></span>
+                        </div>
+
+                        <div class="d-grid">
+                            <button type="submit" class="btn btn-primary btn-lg py-3 fw-semibold">Registrar</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}
+
+<!-- Estilos adicionales -->
+<style>
+    .card {
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1), 0 1px 6px rgba(0, 0, 0, 0.08);
+        border-radius: 16px;
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+        .card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15), 0 3px 8px rgba(0, 0, 0, 0.1);
+        }
+
+    .btn {
+        font-weight: bold;
+        border-radius: 50px;
+        transition: all 0.3s ease;
+    }
+
+        .btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+        }
+
+    .input-group .form-control {
+        border-radius: 10px;
+    }
+</style>

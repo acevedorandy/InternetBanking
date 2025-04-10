@@ -1,0 +1,110 @@
+﻿@model IEnumerable<InternetBanking.Persistance.Models.dbo.TransaccionesModel>
+
+@{
+    ViewData["Title"] = "Lista de Transacciones Filtradas";
+}
+
+@* Incluye Bootstrap CSS *@
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+
+@* Estilos personalizados *@
+<style>
+    body {
+        background-color: #f8f9fa;
+    }
+
+    .container {
+        margin-top: 30px;
+    }
+
+    .table thead {
+        background-color: #6f42c1;
+        color: white;
+    }
+
+    .table tbody tr:hover {
+        background-color: #f1f1f1;
+    }
+
+    .table td, .table th {
+        vertical-align: middle;
+    }
+
+    .btn-back {
+        background-color: #007bff;
+        color: white;
+        border: none;
+        padding: 10px 20px;
+        font-size: 1rem;
+        border-radius: 5px;
+        margin-bottom: 20px;
+    }
+
+        .btn-back:hover {
+            background-color: #0056b3;
+        }
+
+    h1 {
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        color: #333;
+    }
+
+    h2 {
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        color: #6c757d;
+    }
+</style>
+
+<div class="container">
+    <h1 class="text-center">@ViewData["Title"]</h1>
+
+    @* Botón "Volver atrás" visible en ambos casos *@
+    <button class="btn-back" onclick="history.back()">Volver atrás</button>
+
+    @if (Model == null || !Model.Any())
+    {
+        <h2 class="text-center">No hay transacciones registradas para la fecha seleccionada.</h2>
+    }
+    else
+    {
+        <table class="table table-striped table-bordered">
+            <thead>
+                <tr>
+                    <th>@Html.DisplayNameFor(model => model.TransaccionID)</th>
+                    <th>@Html.DisplayNameFor(model => model.UsuarioID)</th>
+                    <th>@Html.DisplayNameFor(model => model.CuentaID)</th>
+                    <th>@Html.DisplayNameFor(model => model.NumeroCuenta)</th>
+                    <th>@Html.DisplayNameFor(model => model.Tipo)</th>
+                    <th>@Html.DisplayNameFor(model => model.Monto)</th>
+                    <th>@Html.DisplayNameFor(model => model.Fecha)</th>
+                    <th>@Html.DisplayNameFor(model => model.Detalles)</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>@Html.DisplayFor(modelItem => item.TransaccionID)</td>
+                        <td>@Html.DisplayFor(modelItem => item.UsuarioID)</td>
+                        <td>@Html.DisplayFor(modelItem => item.CuentaID)</td>
+                        <td>@Html.DisplayFor(modelItem => item.NumeroCuenta)</td>
+                        <td>@Html.DisplayFor(modelItem => item.Tipo)</td>
+                        <td>@Html.DisplayFor(modelItem => item.Monto)</td>
+                        <td>@Html.DisplayFor(modelItem => item.Fecha)</td>
+                        <td>@Html.DisplayFor(modelItem => item.Detalles)</td>
+                        <td>
+                            <a href="@Url.Action("Details", "Transacciones", new { id = item.TransaccionID })" class="btn btn-primary btn-sm">
+                                Ver detalles
+                            </a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+</div>
+
+@* Incluir Bootstrap JS y Popper.js si es necesario *@
+<script src="https://cdn.jsdelivr.net/npm/popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js"></script>

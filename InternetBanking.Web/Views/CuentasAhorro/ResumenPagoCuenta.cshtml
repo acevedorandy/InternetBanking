@@ -1,0 +1,53 @@
+﻿@model InternetBanking.Application.Models.cuenta.CuentaTransferenciaModel
+
+@{
+    ViewData["Title"] = "Resumen del Pago";
+}
+
+<h1 class="text-center">Resumen de la transferencia entre sus cuentas</h1>
+
+<div class="container">
+
+    @if (TempData["ErrorMessage"] != null)
+    {
+        <div class="alert alert-warning alert-dismissible fade show" role="alert">
+            @TempData["ErrorMessage"]
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    }
+
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title"><i class="fas fa-user"></i> Propietario de la Cuenta</h5>
+
+                    <input type="hidden" asp-for="CuentaOrigenID" />
+                    <input type="hidden" asp-for="CuentaDestinoID" />
+
+                    <p><strong>Desde cuenta:</strong> @Model.NumeroCuentaOrigen</p>
+                    <p><strong>Balance disponible:</strong> @Model.Saldo</p>
+                    <p><strong>Hasta la cuenta:</strong> @Model.NumeroCuentaDestino</p>
+
+                    <form asp-action="ConfirmarPagoCuenta" method="post">
+                        <input type="hidden" asp-for="CuentaOrigenID" />
+                        <input type="hidden" asp-for="CuentaDestinoID" />
+
+                        <input type="hidden" asp-for="Saldo" />
+                        
+                        <div class="form-group mt-3">
+                            <label class="control-label"><strong>Monto a Transferir:</strong></label>
+                            <input asp-for="Monto" class="form-control" type="number" step="0.01" id="montoField" required />
+                            <span asp-validation-for="Monto" class="text-danger"></span>
+                        </div>
+
+                        <div class="text-center mt-4">
+                            <button type="submit" class="btn btn-success">Confirmar Pago</button>
+                            <a href="@Url.Action("Index", "CuentasAhorro")" class="btn btn-danger">Cancelar</a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

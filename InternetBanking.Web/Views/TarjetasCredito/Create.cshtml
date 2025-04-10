@@ -1,0 +1,42 @@
+﻿@model InternetBanking.Application.Dtos.dbo.TarjetasCreditoDto
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<h1>Create</h1>
+
+<h4>TarjetasCreditoDto</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create" enctype="multipart/form-data">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="LimiteCredito" class="control-label"></label>
+                <input asp-for="LimiteCredito" class="form-control" />
+                <span asp-validation-for="LimiteCredito" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="TipoTarjeta" class="control-label"></label>
+                <input asp-for="TipoTarjeta" class="form-control" />
+                <span asp-validation-for="TipoTarjeta" class="text-danger"></span>
+            </div>
+            <div class="mb-3">
+                <label asp-for="File" class="form-label">Icono:</label>
+                <input asp-for="File" type="file" class="form-control" />
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

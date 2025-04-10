@@ -1,0 +1,42 @@
+﻿@model InternetBanking.Persistance.Models.dbo.TarjetasCreditoModel
+
+@{
+    ViewData["Title"] = "Eliminar Tarjeta";
+}
+
+<div class="container mt-5">
+    <div class="card shadow-lg">
+        <div class="card-header bg-danger text-white">
+            <h2 class="mb-0">Eliminar Tarjeta</h2>
+        </div>
+        <div class="card-body">
+            <p class="mb-4">¿Estás seguro de que deseas eliminar esta tarjeta?</p>
+
+            <dl class="row">
+                <dt class="col-sm-4">Número de Tarjeta:</dt>
+                <dd class="col-sm-8">@Html.DisplayFor(model => model.NumeroTarjeta)</dd>
+
+                <dt class="col-sm-4">Límite de Crédito:</dt>
+                <dd class="col-sm-8">@Html.DisplayFor(model => model.LimiteCredito)</dd>
+
+                <dt class="col-sm-4">Saldo de Deuda:</dt>
+                <dd class="col-sm-8">@Html.DisplayFor(model => model.SaldoDeuda)</dd>
+
+                <dt class="col-sm-4">Saldo Disponible:</dt>
+                <dd class="col-sm-8">@Html.DisplayFor(model => model.SaldoDisponible)</dd>
+
+                <dt class="col-sm-4">Tipo de Tarjeta:</dt>
+                <dd class="col-sm-8">@Html.DisplayFor(model => model.TipoTarjeta)</dd>
+
+
+            </dl>
+
+            <form asp-action="EliminarTarjeta">
+                <input type="hidden" name="TarjetaID" value="@Model.TarjetaID" />
+                <input type="hidden" name="UsuarioID" value="@Model.UsuarioID" />
+                <button type="submit" class="btn btn-danger">Eliminar Tarjeta</button>
+                <a asp-action="Index" class="btn btn-secondary">Cancelar</a>
+            </form>
+        </div>
+    </div>
+</div>

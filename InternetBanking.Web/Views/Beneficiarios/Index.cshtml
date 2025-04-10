@@ -1,0 +1,112 @@
+﻿@model IEnumerable<InternetBanking.Persistance.Models.ViewModels.beneficiario.BeneficiariosViewModel>
+
+@{
+    ViewData["Title"] = "Beneficiarios";
+}
+
+<div class="container mt-4">
+
+    <!-- Título centrado -->
+    <h1 class="text-center text-uppercase text-primary mb-3">Beneficiarios</h1>
+
+    <div class="d-flex justify-content-center mb-4">
+        <a asp-action="Create" class="btn btn-success btn-lg">
+            <i class="bi bi-person-plus-fill"></i> Agregar Beneficiario
+        </a>
+    </div>
+
+    @if (Model == null || !Model.Any())
+    {
+        <h2 class="text-muted text-center">No hay beneficiarios agregados.</h2>
+    }
+    else
+    {
+        <!-- Contenedor de tarjetas -->
+        <div class="row">
+            @foreach (var item in Model)
+            {
+                <div class="col-md-4 mb-4">
+                    <div class="card shadow-sm bg-light rounded">
+                        <div class="card-body text-center">
+                            <!-- Icono de persona -->
+                            <div class="mb-3">
+                                <i class="bi bi-person-circle" style="font-size: 3rem; color: #007bff;"></i>
+                            </div>
+                            <h5 class="card-title text-primary">@item.Nombre @item.Apellido</h5>
+                            <p class="card-text">@item.Alias</p>
+                            <p class="text-muted">@item.CuentaBeneficiario</p>
+                            <div class="d-flex justify-content-center mt-3">
+                                <a asp-action="Edit" asp-route-id="@item.BeneficiarioID" class="btn btn-outline-warning btn-sm mr-2">
+                                    <i class="bi bi-pencil"></i> Editar
+                                </a>
+                                <!-- Formulario de eliminación -->
+                                <form id="deleteForm-@item.BeneficiarioID" asp-action="Delete" method="post" style="display: none;">
+                                    @Html.AntiForgeryToken()
+                                    <input type="hidden" name="BeneficiariosDto.BeneficiarioID" value="@item.BeneficiarioID" />
+                                </form>
+
+                                <button type="button" class="btn btn-outline-danger btn-sm" onclick="confirmarEliminacion(event, @item.BeneficiarioID)">
+                                    <i class="bi bi-trash"></i> Eliminar
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    }
+</div>
+
+<!-- Estilos adicionales -->
+<style>
+    body, html {
+        background-color: #f8f9fa;
+        overflow: auto; /* Scroll activado */
+    }
+
+    h1 {
+        font-family: 'Arial', sans-serif;
+    }
+
+    .card {
+        border-radius: 10px;
+    }
+
+    .card-title {
+        font-size: 1.25rem;
+        font-weight: bold;
+    }
+
+    .btn-outline-warning, .btn-outline-danger {
+        min-width: 90px;
+    }
+
+    .btn-sm i {
+        margin-right: 6px;
+    }
+
+</style>
+
+@section Scripts {
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script>
+        function confirmarEliminacion(event, beneficiarioID) {
+            event.preventDefault(); // Prevenir el envío del formulario por defecto
+
+            Swal.fire({
+                title: "¿Estás seguro?",
+                text: "Esta acción no se puede deshacer.",
+                icon: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#d33",
+                cancelButtonColor: "#3085d6",
+                confirmButtonText: "Sí, eliminar",
+                cancelButtonText: "Cancelar"
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    document.getElementById("deleteForm-" + beneficiarioID).submit(); // Enviar el formulario si se confirma
+                }
+            });
+        }
+    </script>
+}

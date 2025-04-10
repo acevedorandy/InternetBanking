@@ -1,0 +1,23 @@
+﻿@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewBag.Title = "Acceso Denegado";
+}
+
+<style>
+    .centered-card {
+        min-height: 80vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+</style>
+
+<div class="container centered-card">
+    <div class="card shadow-lg p-5 rounded-4" style="max-width: 500px; width: 100%;">
+        <div class="card-body text-center">
+            <h1 class="text-danger mb-4">403 - Acceso Denegado</h1>
+            <p class="lead mb-4">Lo sentimos, no tienes permisos suficientes para ver esta página.</p>
+            <a href="@Url.Action("Welcome", "Account")" class="btn btn-primary btn-lg rounded-pill shadow-sm">Volver al inicio</a>
+        </div>
+    </div>
+</div>

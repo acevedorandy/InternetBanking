@@ -1,0 +1,112 @@
+﻿@model InternetBanking.Application.Models.beneficiario.PagoBeneficiarioModel
+
+@{
+    ViewData["Title"] = "Resumen del Pago";
+}
+
+<!-- Contenedor principal centrado -->
+<div class="container d-flex flex-column justify-content-center align-items-center min-vh-100" style="overflow: hidden;">
+
+    <!-- Título con margen ajustado -->
+    <h1 class="text-center text-uppercase text-primary mb-3">Resumen del Pago al Beneficiario</h1>
+
+    @if (TempData["ErrorMessage"] != null)
+    {
+        <div class="alert alert-warning alert-dismissible fade show" role="alert">
+            @TempData["ErrorMessage"]
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    }
+
+    <!-- Tarjeta centrada -->
+    <div class="row justify-content-center w-100">
+        <div class="col-md-6">
+            <div class="card shadow-lg rounded-lg">
+                <div class="card-body bg-light">
+
+                    <h5 class="card-title text-primary mb-4">
+                        <i class="bi bi-check-circle"></i> Detalles del Pago
+                    </h5>
+
+                    <!-- Detalles de la Cuenta -->
+                    <p><strong>Desde cuenta:</strong> @Model.NumeroCuenta</p>
+                    <p><strong>Balance disponible:</strong> @Model.Saldo</p>
+
+                    <!-- Detalles del Beneficiario -->
+                    <p><strong>Nombre del beneficiario:</strong> @Model.Nombre @Model.Apellido</p>
+                    <p><strong>Número de cuenta del beneficiario:</strong> @Model.CuentaBeneficiario</p>
+
+                    <!-- Monto a transferir -->
+                    <p><strong>Monto a transferir:</strong> @ViewBag.Monto</p>
+
+                    <!-- Detalles adicionales -->
+                    <p><strong>Detalles adicionales:</strong> @ViewBag.Detalles</p>
+
+                    <!-- Botones centrados -->
+                    <div class="text-center mt-4">
+                        <form asp-action="ConfirmarPagoBeneficiario" method="post">
+                            <input type="hidden" asp-for="CuentaID" />
+                            <input type="hidden" asp-for="CuentaBeneficiarioID" />
+                            <input type="hidden" asp-for="Saldo" />
+                            <input type="hidden" asp-for="Detalles" />
+                            <input type="hidden" asp-for="BeneficiarioUsuarioID" />
+                            <input type="hidden" name="Monto" value="@ViewBag.Monto" />
+                            <input type="hidden" name="Detalles" value="@ViewBag.Detalles" />
+
+                            <button type="submit" class="btn btn-success btn-lg w-100 fw-bold">
+                                <i class="bi bi-check-circle"></i> Confirmar Pago
+                            </button>
+                            <a href="@Url.Action("Index", "Pagos")" class="btn btn-danger btn-lg w-100 mt-3 fw-bold">
+                                <i class="bi bi-x-circle"></i> Cancelar
+                            </a>
+                        </form>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Bootstrap Icons (si no está incluido en tu proyecto) -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css">
+
+@* Estilos adicionales *@
+<style>
+    /* Desactivar scroll */
+    html, body {
+        overflow: hidden;
+        height: 100vh;
+    }
+
+    h1 {
+        font-family: 'Arial', sans-serif;
+    }
+
+    .card {
+        border-radius: 15px;
+    }
+
+    .card-body {
+        padding: 2rem;
+    }
+
+    .btn {
+        padding: 12px;
+        margin: 5px;
+    }
+
+    .btn-success {
+        background-color: #28a745;
+        border: none;
+    }
+
+    .btn-danger {
+        background-color: #dc3545;
+        border: none;
+    }
+
+    .btn:hover {
+        opacity: 0.9;
+    }
+</style>

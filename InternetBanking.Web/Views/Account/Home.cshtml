@@ -1,0 +1,51 @@
+﻿@{
+    ViewData["Title"] = "Bienvenido";
+}
+
+<!-- Bloqueo de Scroll -->
+<style>
+    html, body {
+        height: 100%;
+        margin: 0;
+        overflow: hidden;
+    }
+</style>
+
+<div class="container d-flex justify-content-center align-items-center min-vh-100">
+    <div class="card shadow-lg p-5 rounded text-center" style="max-width: 500px; width: 100%; background-color: #f9f9f9;">
+        <h1 class="mb-4 text-primary" style="font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;">Bienvenido a su InternetBanking App</h1>
+        <p class="lead mb-4 text-muted">Inicie sesión o regístrese para continuar</p>
+
+        <div class="d-flex justify-content-center gap-4">
+            <a asp-controller="Account" asp-action="Index" class="btn btn-outline-primary btn-lg px-5 py-3" style="font-size: 1.2rem; transition: all 0.3s ease;">
+                Iniciar Sesión
+            </a>
+            <a asp-controller="Account" asp-action="Register" class="btn btn-outline-success btn-lg px-5 py-3" style="font-size: 1.2rem; transition: all 0.3s ease;">
+                Registrarse
+            </a>
+        </div>
+    </div>
+</div>
+
+<!-- Estilos adicionales -->
+<style>
+    .card {
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1), 0 1px 3px rgba(0, 0, 0, 0.08);
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+        .card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2), 0 3px 6px rgba(0, 0, 0, 0.15);
+        }
+
+    .btn {
+        font-weight: bold;
+        border-radius: 50px;
+    }
+
+        .btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+        }
+</style>

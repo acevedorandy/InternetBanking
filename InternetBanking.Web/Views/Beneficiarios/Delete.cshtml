@@ -1,0 +1,45 @@
+﻿@model InternetBanking.Persistance.Models.dbo.BeneficiariosModel
+
+@{
+    ViewData["Title"] = "Delete";
+}
+
+<h1 class="text-center text-uppercase text-primary mb-4">Eliminar beneficiario</h1>
+
+<div class="alert alert-warning text-center fw-bold">
+    ⚠️ ¿Está seguro de que desea eliminar el beneficiario?
+</div>
+@* <h3 class="text-center mb-4">¿Está seguro de que desea eliminar el beneficiario?</h3>
+ *@
+<div class="row justify-content-center">
+    <div class="col-md-6 col-lg-4">
+        <div class="shadow-lg p-4 rounded bg-light">
+
+            <hr />
+            <dl class="row">
+                <dt class="col-sm-4">
+                    @Html.DisplayNameFor(model => model.CuentaBeneficiario)
+                </dt>
+                <dd class="col-sm-8">
+                    <input type="text" class="form-control form-control-lg" value="@Model.CuentaBeneficiario" readonly />
+                </dd>
+                <dt class="col-sm-4">
+                    @Html.DisplayNameFor(model => model.Alias)
+                </dt>
+                <dd class="col-sm-8">
+                    <input type="text" class="form-control form-control-lg" value="@Model.Alias" readonly />
+                </dd>
+            </dl>
+
+            <form asp-action="Delete">
+                <div class="d-grid gap-2">
+                    <input type="submit" value="Eliminar" class="btn btn-danger btn-lg" />
+                </div>
+                <div class="text-center mt-3">
+                    <a asp-action="Index" class="btn btn-outline-primary btn-lg">Volver a la lista</a>
+                </div>
+            </form>
+
+        </div>
+    </div>
+</div>

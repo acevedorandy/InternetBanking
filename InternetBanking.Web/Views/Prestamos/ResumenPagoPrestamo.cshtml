@@ -1,0 +1,165 @@
+﻿@model InternetBanking.Application.Models.prestamos.PagoPrestamoModel
+
+@{
+    ViewData["Title"] = "Resumen del Pago de Préstamo";
+}
+
+<!-- Contenedor principal centrado -->
+<div class="container d-flex flex-column justify-content-center align-items-center min-vh-100" style="overflow: hidden;">
+
+    <!-- Título con margen ajustado -->
+    <h1 class="text-center text-uppercase text-primary mb-3">Resumen del Pago de Préstamo</h1>
+
+    @if (TempData["ErrorMessage"] != null)
+    {
+        <div class="alert alert-warning alert-dismissible fade show" role="alert">
+            @TempData["ErrorMessage"]
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    }
+
+    <!-- Tarjeta centrada -->
+    <div class="row justify-content-center w-100">
+        <div class="col-md-6">
+            <div class="card shadow-lg rounded-lg">
+                <div class="card-body bg-light">
+
+                    <h5 class="card-title text-primary mb-4">
+                        <i class="fas fa-credit-card"></i> Detalles del Préstamo
+                    </h5>
+
+                    <!-- Detalles del Préstamo -->
+                    <p><strong>Desde cuenta:</strong> @Model.NumeroCuenta</p>
+                    <p><strong>Balance disponible:</strong> @Model.Saldo</p>
+                    <p><strong>Número del préstamo:</strong> @Model.NumeroPrestamo</p>
+                    <p><strong>Balance a la fecha:</strong> @Model.SaldoDeuda</p>
+
+                    <!-- Opciones de Pago -->
+                    <div class="form-group mt-3">
+                        <label class="control-label"><strong>Opciones de Pago:</strong></label>
+
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" id="pagoMonto" name="TipoPago" value="monto" onchange="toggleMontoInput()">
+                            <label class="form-check-label" for="pagoMonto">
+                                Pagar un monto específico
+                            </label>
+                        </div>
+
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" id="pagoTotal" name="TipoPago" value="total" onchange="toggleMontoInput()">
+                            <label class="form-check-label" for="pagoTotal">
+                                Pagar el balance total ( @Model.SaldoDeuda )
+                            </label>
+                            <input type="hidden" id="saldoDeuda" value="@Model.SaldoDeuda" />
+                        </div>
+                    </div>
+
+                    <!-- Monto a Transferir -->
+                    <div class="form-group mt-3" id="montoInput" style="display: none;">
+                        <label asp-for="Monto" class="control-label">Monto a Transferir:</label>
+                        <input asp-for="Monto" class="form-control" type="number" step="0.01" id="montoField" required />
+                        <span asp-validation-for="Monto" class="text-danger"></span>
+                    </div>
+
+                    <!-- Botones centrados -->
+                    <div class="text-center mt-4">
+                        <form asp-action="ConfirmarPagoPrestamo" method="post">
+                            <input type="hidden" asp-for="CuentaID" />
+                            <input type="hidden" asp-for="PrestamoID" />
+                            <input type="hidden" asp-for="Saldo" />
+
+                            <!-- Este campo será el único que se actualizará con el monto correcto -->
+                            <input type="hidden" id="MontoHidden" asp-for="Monto" />
+
+                            <button type="submit" class="btn btn-success btn-lg w-100 fw-bold">
+                                <i class="bi bi-check-circle"></i> Confirmar Pago
+                            </button>
+                            <a href="@Url.Action("Index", "Pagos")" class="btn btn-danger btn-lg w-100 mt-3 fw-bold">
+                                <i class="bi bi-x-circle"></i> Cancelar
+                            </a>
+                        </form>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Bootstrap Icons (si no está incluido en tu proyecto) -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css">
+
+<script>
+    function toggleMontoInput() {
+        let radioMonto = document.getElementById("pagoMonto");
+        let radioTotal = document.getElementById("pagoTotal");
+        let montoInput = document.getElementById("montoInput");
+        let montoField = document.getElementById("montoField");
+        let saldoDeuda = document.getElementById("saldoDeuda").value;
+        let montoHidden = document.getElementById("MontoHidden");  // Referencia al campo oculto
+
+        if (radioMonto.checked) {
+            montoInput.style.display = "block";
+            montoField.value = "";  // Limpiamos el campo cuando el usuario selecciona "Monto específico"
+            montoField.readOnly = false;  // Permitimos la edición
+            montoHidden.value = "";  // Limpiamos el valor del campo oculto
+        } else if (radioTotal.checked) {
+            montoInput.style.display = "block";
+            montoField.value = saldoDeuda;  // Establecemos el valor como el saldo total
+            montoField.readOnly = true;  // Hacemos el campo solo lectura
+            montoHidden.value = saldoDeuda;  // Establecemos el valor del campo oculto al saldo total
+        } else {
+            montoInput.style.display = "none";  // Ocultamos el campo si no se selecciona ninguna opción
+            montoField.value = "";
+            montoHidden.value = "";
+        }
+    }
+
+    // Esta función asegura que se sincronice el campo oculto con el campo visible
+    document.getElementById("montoField").addEventListener("input", function () {
+        let montoField = document.getElementById("montoField");
+        let montoHidden = document.getElementById("MontoHidden");
+        montoHidden.value = montoField.value;  // Sincroniza el valor del campo oculto con el visible
+    });
+</script>
+
+
+@* Estilos adicionales *@
+<style>
+    /* Desactivar scroll */
+    html, body {
+        overflow: hidden;
+        height: 100vh;
+    }
+
+    h1 {
+        font-family: 'Arial', sans-serif;
+    }
+
+    .card {
+        border-radius: 15px;
+    }
+
+    .card-body {
+        padding: 2rem;
+    }
+
+    .btn {
+        padding: 12px;
+        margin: 5px;
+    }
+
+    .btn-success {
+        background-color: #28a745;
+        border: none;
+    }
+
+    .btn-danger {
+        background-color: #dc3545;
+        border: none;
+    }
+
+    .btn:hover {
+        opacity: 0.9;
+    }
+</style>

@@ -1,0 +1,64 @@
+﻿@using InternetBanking.Application.Models.cuenta
+@model CuentaTransferenciaModel
+
+@{
+    ViewData["Title"] = "Pagar Prestamo";
+}
+
+<div class="container mt-5">
+
+    <h1 class="text-center text-primary mb-4">Transferir entre mis cuentas</h1>
+
+    <!-- Mensaje de error -->
+    @if (TempData["ErrorMessage"] != null)
+    {
+        <div class="alert alert-warning alert-dismissible fade show" role="alert">
+            @TempData["ErrorMessage"]
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    }
+
+    <!-- Formulario para pagar préstamo -->
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card shadow-sm bg-light rounded">
+                <div class="card-body">
+                    <form asp-action="ProcesarPagarCuenta" method="get">
+                        <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+
+                        <!-- Selección de cuenta origen -->
+                        <div class="mb-4">
+                            <label asp-for="CuentaOrigenID" class="form-label fw-bold">Desde cuenta:</label>
+                            <select asp-for="CuentaOrigenID" asp-items="@ViewBag.CuentaOrigen" class="form-select" required>
+                                <option value="" selected disabled>Seleccione tu cuenta</option>
+                            </select>
+                            <span asp-validation-for="CuentaOrigenID" class="text-danger"></span>
+                        </div>
+
+                        <!-- Selección de cuenta destino -->
+                        <div class="mb-4">
+                            <label asp-for="CuentaDestinoID" class="form-label fw-bold">Hasta cuenta:</label>
+                            <select asp-for="CuentaDestinoID" asp-items="@ViewBag.CuentaDestino" class="form-select" required>
+                                <option value="" selected disabled>Seleccione cuenta destino</option>
+                            </select>
+                            <span asp-validation-for="CuentaDestinoID" class="text-danger"></span>
+                        </div>
+
+                        <!-- Botón de continuar -->
+                        <div class="form-group text-center mt-4">
+                            <button type="submit" class="btn btn-primary btn-lg">
+                                <i class="bi bi-arrow-right-circle"></i> Continuar
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<!-- Scripts -->
+@section Scripts {
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.js"></script>
+}

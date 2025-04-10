@@ -1,0 +1,40 @@
+﻿@model InternetBanking.Persistance.Models.dbo.CuentasAhorroModel
+
+@{
+    ViewData["Title"] = "Eliminar Cuenta";
+}
+
+<div class="container mt-5">
+    <div class="card shadow-lg">
+        <div class="card-header bg-danger text-white">
+            <h2 class="mb-0">Eliminar Cuenta</h2>
+        </div>
+        <div class="card-body">
+            <p class="mb-4">¿Estás seguro de que deseas eliminar esta cuenta?</p>
+
+            <dl class="row">
+                <dt class="col-sm-4">Número de Cuenta:</dt>
+                <dd class="col-sm-8">@Html.DisplayFor(model => model.NumeroCuenta)</dd>
+
+                <dt class="col-sm-4">Saldo:</dt>
+                <dd class="col-sm-8">@Html.DisplayFor(model => model.Saldo)</dd>
+
+                <dt class="col-sm-4">Cuenta Principal:</dt>
+                <dd class="col-sm-8">@Html.DisplayFor(model => model.Principal)</dd>
+
+                <dt class="col-sm-4">Nombre del Titular:</dt>
+                <dd class="col-sm-8">@Html.DisplayFor(model => model.Nombre)</dd>
+
+                <dt class="col-sm-4">Apellido del Titular:</dt>
+                <dd class="col-sm-8">@Html.DisplayFor(model => model.Apellido)</dd>
+            </dl>
+
+            <form method="post" action="@Url.Action("EliminarCuenta", "Usuarios")">
+                <input type="hidden" name="CuentaID" value="@Model.CuentaID" />
+                <input type="hidden" name="UsuarioID" value="@Model.UsuarioID" />
+                <button type="submit" class="btn btn-danger">Eliminar Cuenta</button>
+                <a href="@Url.Action("Index","Usuarios")" class="btn btn-secondary">Cancelar</a>
+            </form>
+        </div>
+    </div>
+</div>

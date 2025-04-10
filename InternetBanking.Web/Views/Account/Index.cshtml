@@ -1,0 +1,105 @@
+﻿@using InternetBanking.Application.Dtos.identity.account;
+@model LoginDto
+
+@{
+    ViewData["Title"] = "Bienvenido a InternetBanking.App";
+}
+
+<!-- Bloqueo de Scroll -->
+<style>
+    html, body {
+        height: 100%;
+        margin: 0;
+        overflow: hidden; /* Bloquea el scroll */
+        background-color: #f8f9fa;
+    }
+</style>
+
+<div class="container d-flex justify-content-center align-items-center min-vh-100">
+    <div class="row justify-content-center w-100">
+        <div class="col-12 col-md-6 col-lg-4">
+            <div class="card shadow-lg border-0 rounded-4">
+                <div class="card-body p-5 text-center">
+                    <div class="mb-3">
+                        <i class="bi bi-bank2" style="font-size: 3rem; color: #0d6efd;"></i>
+                    </div>
+                    <h3 class="mb-3 fw-bold text-dark" style="font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;">Bienvenido a <br> <span class="text-primary">InternetBanking.App</span></h3>
+                    <p class="text-muted mb-4">Administra tus cuentas, realiza transacciones y gestiona tus finanzas de forma segura.</p>
+
+                    @Html.ValidationSummary(false, "", new { @class = "text-danger" })
+
+                    @if (Model.HasError)
+                    {
+                        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                            <p>@Model.Error</p>
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div>
+                    }
+
+                    <form method="post" asp-controller="Account" asp-action="Index">
+                        <div class="mb-4 text-start">
+                            <label asp-for="Email" class="form-label fw-semibold text-muted"><i class="bi bi-envelope-fill me-2"></i>Correo electrónico</label>
+                            <input class="form-control p-3 shadow-sm" asp-for="Email" placeholder="Ingrese su correo" required />
+                        </div>
+
+                        <div class="mb-4 text-start position-relative">
+                            <label asp-for="Password" class="form-label fw-semibold text-muted"><i class="bi bi-lock-fill me-2"></i>Contraseña</label>
+                            <div class="input-group">
+                                <input class="form-control p-3 shadow-sm" asp-for="Password" type="password" placeholder="Ingrese su contraseña" id="passwordField" required />
+                            </div>
+                        </div>
+
+                        <div class="mb-4 text-center">
+                            <a asp-controller="Account" asp-action="ForgotPassword" class="text-primary text-decoration-none d-block">
+                                <i class="bi bi-key-fill me-1"></i> ¿Olvidaste tu contraseña?
+                            </a>
+                            <a asp-controller="Account" asp-action="Register" class="text-primary text-decoration-none d-block mt-2">
+                                <i class="bi bi-person-plus-fill me-1"></i> Crear una cuenta
+                            </a>
+                        </div>
+
+                        <div class="d-grid">
+                            <button type="submit" class="btn btn-primary btn-lg py-3 fw-semibold">
+                                <i class="bi bi-box-arrow-in-right me-2"></i> Ingresar
+                            </button>
+                        </div>
+                    </form>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Estilos adicionales -->
+<style>
+    .card {
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1), 0 1px 3px rgba(0, 0, 0, 0.08);
+        border-radius: 16px;
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+        height: 700px;
+        width: 500px;
+        transform: translateX(-50px); /* Desplazamiento inicial */
+    }
+
+        .card:hover {
+            transform: translateX(-50px) translateY(-10px); /* Mueve en ambas direcciones (X e Y) */
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2), 0 3px 6px rgba(0, 0, 0, 0.15);
+        }
+
+
+    .btn {
+        font-weight: bold;
+        border-radius: 50px;
+        transition: all 0.3s ease;
+    }
+
+        .btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+        }
+
+    .input-group .form-control {
+        border-radius: 10px;
+    }
+</style>

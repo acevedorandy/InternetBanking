@@ -1,0 +1,80 @@
+﻿@{
+    ViewData["Title"] = "Opciones de Pago";
+}
+
+<div class="container d-flex flex-column align-items-center justify-content-center py-5">
+    <!-- Mensaje de éxito -->
+    @if (TempData["SuccessMessage"] != null)
+    {
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+            @TempData["SuccessMessage"]
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    }
+
+    <h2 class="text-center text-primary fw-bold mb-4">Opciones de Pago</h2>
+
+    <div class="row row-cols-1 row-cols-md-2 g-4">
+        <!-- Opciones de pago -->
+        @foreach (var pago in new[] {
+        new { Accion = "PagoExpreso", Controlador = (string)null, Icono = "fa-bolt", Titulo = "Pago Expreso" },
+        new { Accion = "PagarTarjeta", Controlador = "TarjetasCredito", Icono = "fa-credit-card", Titulo = "Pagar Tarjeta de Crédito" },
+        new { Accion = "PagarPrestamo", Controlador = "Prestamos", Icono = "fa-file-invoice-dollar", Titulo = "Pagar Préstamo" },
+        new { Accion = "PagarBeneficiario", Controlador = "Beneficiarios", Icono = "fa-user-friends", Titulo = "Pago a Beneficiario" }
+        })
+        {
+            <div class="col d-flex justify-content-center">
+                <a asp-controller="@(pago.Controlador ?? ViewContext.RouteData.Values["controller"])"
+                   asp-action="@pago.Accion"
+                   class="card pago-card shadow-lg text-center">
+                    <div class="card-body">
+                        <i class="fas @pago.Icono icono-pago"></i>
+                        <h5 class="card-title mt-3">@pago.Titulo</h5>
+                    </div>
+                </a>
+            </div>
+        }
+    </div>
+</div>
+
+<!-- Estilos personalizados -->
+<style>
+    .pago-card {
+        text-decoration: none;
+        border-radius: 15px;
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+        background: linear-gradient(135deg, #17a2b8, #00c3ff);
+        color: white;
+        width: 200px;
+        height: 180px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 20px;
+        flex-grow: 4;
+    }
+
+    .pago-card:hover {
+        transform: scale(1.05);
+        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+    }
+
+    .icono-pago {
+        font-size: 50px;
+        color: #f8f9fa;
+    }
+
+    .card-title {
+        font-size: 18px;
+        font-weight: bold;
+    }
+
+    .container {
+        min-height: 100vh;
+    }
+</style>
+
+<!-- Bootstrap y FontAwesome -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/all.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>

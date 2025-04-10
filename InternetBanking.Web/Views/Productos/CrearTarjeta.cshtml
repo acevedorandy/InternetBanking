@@ -1,0 +1,54 @@
+﻿@model InternetBanking.Application.Dtos.dbo.TarjetasCreditoDto
+
+@{
+    ViewData["Title"] = "Crear Tarjeta";
+}
+
+<div class="container mt-4">
+    <div class="card shadow-lg border-0 rounded-4">
+        <div class="card-header bg-primary text-white text-center py-3 rounded-top-4">
+            <h2 class="mb-0">Crear Tarjeta de Crédito</h2>
+        </div>
+        <div class="card-body p-4">
+            <form asp-action="CrearTarjeta">
+                <div asp-validation-summary="ModelOnly" class="alert alert-danger d-none"></div>
+
+                <div class="mb-3">
+                    <label asp-for="UsuarioID" class="form-label fw-bold">Seleccione un usuario:</label>
+                    <select asp-for="UsuarioID" asp-items="@ViewBag.Usuarios" class="form-select" required>
+                        <option value="" selected disabled>Seleccione una cuenta</option>
+                    </select>
+                    <span asp-validation-for="UsuarioID" class="text-danger"></span>
+                </div>
+
+                <div class="mb-3">
+                    <label asp-for="LimiteCredito" class="form-label fw-bold">Límite de Crédito</label>
+                    <input asp-for="LimiteCredito" class="form-control" placeholder="Ingrese el límite de crédito" />
+                    <span asp-validation-for="LimiteCredito" class="text-danger"></span>
+                </div>
+
+                <div class="mb-3">
+                    <label asp-for="TipoTarjeta" class="form-label fw-bold">Seleccione el tipo de tarjeta:</label>
+                    <select asp-for="TipoTarjeta" asp-items="@ViewBag.Tarjetas" class="form-select" required>
+                        <option value="" selected disabled>Seleccione un tipo</option>
+                    </select>
+                    <span asp-validation-for="TipoTarjeta" class="text-danger"></span>
+                </div>
+
+                <div class="text-center">
+                    <button type="submit" class="btn btn-success btn-lg px-4">Crear Tarjeta</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div class="text-center mt-3">
+        <a asp-action="Index" class="btn btn-outline-secondary">Volver a la Lista</a>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

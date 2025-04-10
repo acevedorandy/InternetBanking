@@ -1,0 +1,42 @@
+﻿@model InternetBanking.Application.Dtos.dbo.avance.AvanceEfectivoDto
+
+@{
+    ViewData["Title"] = "Avance de Efectivo";
+}
+
+<h1 class="text-center mb-4">Avance de Efectivo</h1>
+
+<div class="container">
+    <form method="get" asp-action="ProcesarAvance">
+        <div class="card shadow-sm">
+            <div class="card-body">
+                <!-- Número de Tarjeta -->
+                <div class="mb-3">
+                    <label for="NumeroTarjeta" class="form-label fw-bold">Número de Tarjeta</label>
+                    <input type="text" id="NumeroTarjeta" name="NumeroTarjeta" value="@Model.NumeroTarjeta" class="form-control" readonly />
+                    <input type="hidden" name="TarjetaID" value="@Model.TarjetaID" />
+                </div>
+
+                <!-- Monto -->
+                <div class="mb-3">
+                    <label for="Monto" class="form-label fw-bold">Monto</label>
+                    <input type="number" id="Monto" name="Monto" value="@Model.Monto" class="form-control" required />
+                </div>
+
+                <!-- Selección de Cuenta -->
+                <div class="mb-3">
+                    <label for="CuentaID" class="form-label fw-bold">Seleccione una cuenta:</label>
+                    <select name="CuentaID" asp-items="@ViewBag.Cuentas" class="form-select" required>
+                        <option value="" selected disabled>Seleccione una cuenta</option>
+                    </select>
+                    <span asp-validation-for="CuentaID" class="text-danger"></span>
+                </div>
+
+                <!-- Botón de Enviar -->
+                <div class="text-center">
+                    <button type="submit" class="btn btn-primary">Procesar Avance</button>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>

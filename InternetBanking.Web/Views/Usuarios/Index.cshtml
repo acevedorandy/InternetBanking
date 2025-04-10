@@ -1,0 +1,145 @@
+﻿@model IEnumerable<InternetBanking.Persistance.Models.dbo.UsuariosModel>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<div class="container mt-4">
+    <h1 class="text-center">Usuarios</h1>
+
+    <!-- Botones para agregar clientes y administradores -->
+    <div class="d-flex justify-content-between mb-4">
+        <a class="btn btn-primary btn-lg" asp-action="Create">Agregar cliente</a>
+        <a class="btn btn-success btn-lg" asp-controller="Account" asp-action="Register">Agregar un administrador</a>
+    </div>
+
+    <!-- Formulario para el filtro -->
+    <form method="get" asp-action="FiltrarRol" class="mb-4">
+        <div class="d-flex justify-content-center">
+            <select name="rol" class="form-select w-auto">
+                <option value="Admin">Admin</option>
+                <option value="Basic">Basic</option>
+            </select>
+            <button type="submit" class="btn btn-info ms-2">Filtrar</button>
+        </div>
+    </form>
+
+    <!-- Mensaje de éxito si existe -->
+    @if (TempData["SuccessMessage"] != null)
+    {
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+            @TempData["SuccessMessage"]
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    }
+
+    @if (TempData["ErrorMessage"] != null)
+    {
+        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+            @TempData["ErrorMessage"]
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    }
+
+
+    <!-- Mensaje si no hay usuarios registrados -->
+    @if (Model == null || !Model.Any())
+    {
+        <h2 class="text-center">No hay usuarios registrados.</h2>
+    }
+    else
+    {
+        <!-- Cards para mostrar usuarios -->
+        <div class="row row-cols-1 row-cols-md-3 g-4">
+            @foreach (var item in Model)
+            {
+                <div class="col">
+                    <div class="card shadow-sm">
+                        <div class="card-body text-center">
+                            <!-- Foto de perfil (icono de persona) -->
+                            <div class="mb-3">
+                                <i class="bi bi-person-circle" style="font-size: 4rem; color: #007bff;"></i>
+                            </div>
+                            <!-- Información del usuario -->
+                            <h5 class="card-title">@item.Nombre @item.Apellido</h5>
+                            <p class="card-text">
+                                <strong>Cedula:</strong> @item.Cedula <br>
+                                <strong>Correo:</strong> @item.Correo <br>
+                                <strong>Usuario:</strong> @item.UserName <br>
+                                <strong>Telefono:</strong> @item.Telefono <br>
+                                <strong>Activo:</strong>
+                                @{
+                                    var iconClass = item.IsActive ? "fa-check-circle text-success" : "fa-times-circle text-danger";
+                                    var statusText = item.IsActive ? "Sí" : "No";
+                                }
+                                <i class="fas @iconClass"></i> @statusText <br>
+                                <strong>Rol:</strong> @item.Rol
+                            </p>
+
+                            @if (item.Rol == "Basic")
+                            {
+                                <a asp-action="EditBasic" asp-route-id="@item.Id" class="btn btn-outline-info btn-sm">
+                                    <i class="bi bi-pencil-square"></i> Modificar información
+                                </a>
+                            }
+                            else if (item.Rol == "Admin")
+                            {
+                                <a asp-action="EditAdmin" asp-route-id="@item.Id" class="btn btn-outline-info btn-sm">
+                                    <i class="bi bi-pencil-square"></i> Modificar información
+                                </a>
+                            }
+
+                            <a asp-action="ListaDeProductos" asp-route-id="@item.Id" class="btn btn-outline-info btn-sm">
+                                <i class="bi bi-cash-stack"></i> Ver productos
+                            </a>
+
+                            <!-- Botones para activar/desactivar -->
+                            <div class="mt-2">
+                                @if (item.IsActive)
+                                {
+                                    <a asp-action="ActivarOrDesactivar" asp-route-id="@item.Id" class="btn btn-outline-danger btn-sm" onclick="confirmarEliminacion(event, @item.Id)">
+                                        <i class="bi bi-lock"></i> Desactivar
+                                    </a>
+                                }
+                                else
+                                {
+                                    <a asp-action="ActivarOrDesactivar" asp-route-id="@item.Id" class="btn btn-outline-success btn-sm" onclick="confirmarEliminacion(event, @item.Id)">
+                                        <i class="bi bi-unlock"></i> Activar
+                                    </a>
+                                }
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+
+        </div>
+    }
+</div>
+
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet" />
+
+@section Scripts {
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script>
+        function confirmarEliminacion(event, Id) {
+            event.preventDefault(); // Prevenir el envío del formulario por defecto
+
+            Swal.fire({
+                title: "¿Estás seguro?",
+                text: "El estado cambiará despues de esto.",
+                icon: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#d33",
+                cancelButtonColor: "#3085d6",
+                confirmButtonText: "Sí",
+                cancelButtonText: "Cancelar"
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    document.getElementById("deleteForm-" + Id).submit(); // Enviar el formulario si se confirma
+                }
+            });
+        }
+    </script>
+}

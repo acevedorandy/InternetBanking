@@ -1,0 +1,95 @@
+﻿@model InternetBanking.Application.Models.tarjetas.PagoTarjetaModel
+
+@{
+    ViewData["Title"] = "Resumen del Pago";
+}
+
+<h1 class="text-center mb-5">Resumen del Pago</h1>
+
+<div class="container">
+
+    @if (TempData["ErrorMessage"] != null)
+    {
+        <div class="alert alert-warning alert-dismissible fade show" role="alert">
+            @TempData["ErrorMessage"]
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    }
+
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card shadow-lg rounded-3">
+                <div class="card-body">
+                    <h5 class="card-title text-center mb-4"><i class="fas fa-credit-card"></i> Información del Pago</h5>
+
+                    <input type="hidden" asp-for="CuentaID" />
+                    <input type="hidden" asp-for="TarjetaID" />
+
+                    <p><strong>Desde cuenta:</strong> @Model.NumeroCuenta</p>
+                    <p><strong>Balance disponible:</strong> @Model.SaldoDisponible</p>
+                    <p><strong>Tarjeta de crédito:</strong> @Model.NumeroTarjeta</p>
+                    <p><strong>Balance a la fecha:</strong> @Model.SaldoDeuda</p>
+
+                    <form asp-action="ConfirmarPagoTarjeta" method="post" class="mt-4">
+                        <input type="hidden" asp-for="CuentaID" />
+                        <input type="hidden" asp-for="TarjetaID" />
+                        <input type="hidden" asp-for="SaldoDisponible" />
+
+                        <div class="form-group">
+                            <label class="control-label"><strong>Opciones de Pago:</strong></label>
+
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" id="pagoMonto" name="TipoPago" value="monto" onchange="toggleMontoInput()">
+                                <label class="form-check-label" for="pagoMonto">
+                                    Pagar un monto específico
+                                </label>
+                            </div>
+
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" id="pagoTotal" name="TipoPago" value="total" onchange="toggleMontoInput()">
+                                <label class="form-check-label" for="pagoTotal">
+                                    Pagar el balance total ( @Model.SaldoDeuda )
+                                </label>
+                                <input type="hidden" id="saldoDeuda" value="@Model.SaldoDeuda" />
+                            </div>
+                        </div>
+
+                        <div class="form-group mt-3" id="montoInput" style="display: none;">
+                            <label asp-for="Monto" class="control-label">Monto a Transferir:</label>
+                            <input asp-for="Monto" class="form-control" type="number" step="0.01" id="montoField" required />
+                            <span asp-validation-for="Monto" class="text-danger"></span>
+                        </div>
+
+                        <div class="text-center mt-4">
+                            <button type="submit" class="btn btn-success px-4 py-2">Confirmar Pago</button>
+                            <a href="@Url.Action("Index", "Pagos")" class="btn btn-danger px-4 py-2">Cancelar</a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    function toggleMontoInput() {
+        let radioMonto = document.getElementById("pagoMonto");
+        let radioTotal = document.getElementById("pagoTotal");
+        let montoInput = document.getElementById("montoInput");
+        let montoField = document.getElementById("montoField");
+        let saldoDeuda = document.getElementById("saldoDeuda").value;
+
+        if (radioMonto.checked) {
+            montoInput.style.display = "block";
+            montoField.value = "";
+            montoField.readOnly = false;
+        } else if (radioTotal.checked) {
+            montoInput.style.display = "block";
+            montoField.value = saldoDeuda;
+            montoField.readOnly = true;
+        } else {
+            montoInput.style.display = "none";
+            montoField.value = "";
+        }
+    }
+</script>

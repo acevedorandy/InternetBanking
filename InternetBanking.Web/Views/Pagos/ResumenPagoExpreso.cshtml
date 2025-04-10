@@ -1,0 +1,95 @@
+﻿@model InternetBanking.Persistance.Models.ViewModels.pagos.ExpresoViewModel
+
+@{
+    ViewData["Title"] = "Resumen de Pago Expreso";
+}
+
+<!-- Contenedor principal centrado -->
+<div class="container d-flex flex-column justify-content-center align-items-center min-vh-100" style="overflow: hidden;">
+
+    <!-- Título con margen ajustado -->
+    <h1 class="text-center text-uppercase text-primary mb-3">Resumen de Pago Expreso</h1>
+
+    @if (TempData["ErrorMessage"] != null)
+    {
+        <div class="alert alert-warning alert-dismissible fade show" role="alert">
+            @TempData["ErrorMessage"]
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    }
+
+    <!-- Tarjeta centrada -->
+    <div class="row justify-content-center w-100">
+        <div class="col-md-6">
+            <div class="card shadow-lg rounded-lg">
+                <div class="card-body bg-light">
+
+                    <h5 class="card-title text-primary mb-4">
+                        <i class="fas fa-user"></i> Propietario de la Cuenta
+                    </h5>
+
+                    <p><strong>Número de Cuenta del origen:</strong> @Model.NumeroCuentaOrigen</p>
+                    <p><strong>Número de Cuenta del destino:</strong> @Model.NumeroCuenta</p>
+                    <p><strong>Nombre:</strong> @Model.Nombre</p>
+                    <p><strong>Apellido:</strong> @Model.Apellido</p>
+                    <p><strong>Monto a Transferir:</strong> @ViewBag.Monto</p>
+
+                    <!-- Botones centrados -->
+                    <div class="text-center mt-4">
+                        <form asp-action="ConfirmarPagoExpreso" method="post">
+                            <input type="hidden" asp-for="CuentaOrigenID" />
+                            <input type="hidden" asp-for="CuentaID" />
+                            <input type="hidden" asp-for="NumeroCuenta" />
+                            <input type="hidden" name="Monto" value="@ViewBag.Monto" />
+
+                            <button type="submit" class="btn btn-success btn-lg">Confirmar Pago</button>
+                            <a href="@Url.Action("PagoExpreso")" class="btn btn-danger btn-lg">Cancelar</a>
+                        </form>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@* Estilos adicionales *@
+<style>
+    /* Desactivar scroll */
+    html, body {
+        overflow: hidden;
+        height: 100vh;
+    }
+
+    h1 {
+        font-family: 'Arial', sans-serif;
+    }
+
+    .card {
+        border-radius: 15px;
+    }
+
+    .card-body {
+        padding: 2rem;
+    }
+
+    .btn {
+        width: 48%;
+        padding: 12px;
+        margin: 5px;
+    }
+
+    .btn-success {
+        background-color: #28a745;
+        border: none;
+    }
+
+    .btn-danger {
+        background-color: #dc3545;
+        border: none;
+    }
+
+    .btn:hover {
+        opacity: 0.9;
+    }
+</style>
